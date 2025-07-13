@@ -1,10 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox
-import json, subprocess, os
+import json
+import subprocess
+import os
 from datetime import datetime
+from twitch_vote_bot import write_vote_file  # ✅ uses original HTML template
 
 VOTES_JSON = "votes.json"
-INDEX_HTML = "index.html"
 REFRESH_INTERVAL = 5000  # ms
 
 def load_votes():
@@ -23,21 +25,11 @@ def save_votes(votes):
     with open(VOTES_JSON, "w", encoding="utf-8") as f:
         json.dump(arr, f, indent=2)
 
-def write_vote_file():
-    votes = load_votes()
-    html_items = []
-    for v in sorted(votes.values(), key=lambda v: v["votes"], reverse=True):
-        lbl = "vote" if v["votes"] == 1 else "votes"
-        html_items.append(f"<li>{v['name']}: {v['votes']} {lbl}</li>")
-    html = "<html><body><ul>" + "\n".join(html_items) + "</ul></body></html>"
-    with open(INDEX_HTML, "w", encoding="utf-8") as f:
-        f.write(html)
-
 class VoteManagerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Game Vote Manager")
-        self.root.geometry("720x600")
+        self.root.geometry("740x600")
 
         # Add Game Section
         self.add_frame = tk.Frame(root)
@@ -120,13 +112,15 @@ class VoteManagerApp:
 
     def save_and_push(self):
         try:
-            write_vote_file()
+            write_vote_file()  # ✅ uses original template!
             subprocess.run(["git", "add", "."], check=True)
             subprocess.run(["git", "commit", "-m", "Vote update from GUI"], check=True)
             subprocess.run(["git", "push"], check=True)
             messagebox.showinfo("Success", "Changes saved and pushed.")
         except subprocess.CalledProcessError:
             messagebox.showwarning("Warning", "Nothing to commit or push failed.")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
 
     def auto_refresh(self):
         self.refresh_list()
