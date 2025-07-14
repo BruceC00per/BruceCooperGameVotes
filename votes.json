@@ -63,13 +63,6 @@
     "time": "01:21 PM, Jul 14"
   },
   {
-    "name": "star Citizen",
-    "votes": 2,
-    "url": null,
-    "user": "tuttutt",
-    "time": "01:39 PM, Jul 14"
-  },
-  {
     "name": "Barbie Collector Sim 2025",
     "votes": 2,
     "url": null,
@@ -187,6 +180,13 @@
     "url": "https://store.steampowered.com/app/449540/Theres_Poop_In_My_Soup/",
     "user": "skeifer",
     "time": "01:26 PM, Jul 14"
+  },
+  {
+    "name": "star Citizen",
+    "votes": 1,
+    "url": null,
+    "user": "tuttutt",
+    "time": "01:39 PM, Jul 14"
   },
   {
     "name": "Inscryption",
