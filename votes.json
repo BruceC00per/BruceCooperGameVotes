@@ -28,6 +28,13 @@
     "time": "01:11 PM, Jul 14"
   },
   {
+    "name": "animal crossing",
+    "votes": 2,
+    "url": null,
+    "user": "tuttutt",
+    "time": "01:11 PM, Jul 14"
+  },
+  {
     "name": "Hell's Kitchen",
     "votes": 1,
     "url": "https://store.steampowered.com/app/3833100/Hells_Kitchen/",
@@ -96,12 +103,5 @@
     "url": "https://store.steampowered.com/app/500/Left_4_Dead/",
     "user": "diluposolitaire",
     "time": "01:10 PM, Jul 14"
-  },
-  {
-    "name": "animal crossing",
-    "votes": 1,
-    "url": null,
-    "user": "strawborring",
-    "time": "01:11 PM, Jul 14"
   }
 ]
