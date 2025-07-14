@@ -4,10 +4,10 @@ import json
 import subprocess
 import os
 from datetime import datetime
-from twitch_vote_bot import write_vote_file  # ✅ uses original HTML template
+from twitch_vote_bot import write_vote_file  # Use original styled generator
 
 VOTES_JSON = "votes.json"
-REFRESH_INTERVAL = 5000  # ms
+REFRESH_INTERVAL = 5000  # milliseconds (5 seconds)
 
 def load_votes():
     if not os.path.exists(VOTES_JSON):
@@ -17,7 +17,7 @@ def load_votes():
             raw = json.load(f)
             return {v["name"].lower(): v for v in raw}
     except Exception as e:
-        messagebox.showerror("Error", f"Failed to load votes: {e}")
+        messagebox.showerror("Error", f"Failed to load votes.json:\n{e}")
         return {}
 
 def save_votes(votes):
@@ -49,7 +49,7 @@ class VoteManagerApp:
         self.games_frame = tk.Frame(root)
         self.games_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Buttons
+        # Action Buttons
         self.button_frame = tk.Frame(root)
         self.button_frame.pack(pady=10)
 
@@ -112,13 +112,21 @@ class VoteManagerApp:
 
     def save_and_push(self):
         try:
-            write_vote_file()  # ✅ uses original template!
+            write_vote_file()  # Regenerate styled index.html
+
             subprocess.run(["git", "add", "."], check=True)
+
+            # Check if there are staged changes before committing
+            result = subprocess.run(["git", "diff", "--cached", "--quiet"])
+            if result.returncode == 0:
+                messagebox.showinfo("No Changes", "Nothing new to commit or push.")
+                return
+
             subprocess.run(["git", "commit", "-m", "Vote update from GUI"], check=True)
             subprocess.run(["git", "push"], check=True)
-            messagebox.showinfo("Success", "Changes saved and pushed.")
-        except subprocess.CalledProcessError:
-            messagebox.showwarning("Warning", "Nothing to commit or push failed.")
+            messagebox.showinfo("Success", "Changes saved and pushed to GitHub.")
+        except subprocess.CalledProcessError as e:
+            messagebox.showerror("Git Error", f"Git command failed:\n{e}")
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
