@@ -493,9 +493,15 @@ def main():
                 write_vote_file()
                 send_chat(sock, f"@{user} ✅ Vote for '{game_suggestions[key]['name']}' counted!")
 
-if __name__ == "__main__":
+def update_website():
+    write_vote_file()
+
+def run_bot():
     try:
         main()
     except Exception as e:
         print("💥 Unhandled error:", e)
         input("Press Enter to exit…")
+
+if __name__ == "__main__":
+    run_bot()
