@@ -28,6 +28,13 @@
     "time": "01:11 PM, Jul 14"
   },
   {
+    "name": "PUBG",
+    "votes": 2,
+    "url": null,
+    "user": "murdnox",
+    "time": "01:40 PM, Jul 14"
+  },
+  {
     "name": "Solitaire",
     "votes": 2,
     "url": "https://store.steampowered.com/app/539300/Solitaire/",
@@ -96,13 +103,6 @@
     "url": "https://store.steampowered.com/app/3355800/Bank_Simulator/",
     "user": "maxpower3006",
     "time": "10:51 AM, Jul 14"
-  },
-  {
-    "name": "PUBG",
-    "votes": 1,
-    "url": null,
-    "user": "caserocker",
-    "time": "12:46 PM, Jul 14"
   },
   {
     "name": "PUBG: BATTLEGROUNDS",
