@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>🎮 Game Suggestions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto+Mono&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --accent-color: #00eaff;
+      --game-color:   #00ff88;
+      --bgurl:        url('https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4a709e77c64a4856b6e104d31b9b0d32/static/light/3.0');
+      --card-bg:      rgba(17,17,17,0.85);
+      --card-border:  rgba(0,234,255,0.6);
+      --vote-bg:      rgba(0,234,255,0.15);
+    }
+    body {margin:0;font-family:'Roboto Mono',monospace;color:#e0e0e0;background:#0a0a0a;position:relative}
+    body::before {content:"";background:var(--bgurl) repeat center;background-size:100px 100px;
+                   position:fixed;inset:0;opacity:0.25;filter:blur(4px);z-index:-1}
+    .container {max-width:900px;margin:2rem auto;padding:2rem;
+                 background:rgba(0,0,0,0.8);border-radius:16px;box-shadow:0 0 30px rgba(0,0,0,0.8)}
+    h1 {font-family:'Orbitron',sans-serif;text-align:center;color:var(--accent-color);
+         margin-bottom:0.5rem;text-shadow:0 0 8px rgba(0,234,255,0.7)}
+    h1 a { color: inherit; text-decoration: none; }
+    .links {text-align:center;margin-bottom:1rem;}
+    .links a {color:var(--accent-color);text-decoration:none;margin:0 0.5rem;font-size:1em;}
+    .links a:hover {text-decoration:underline;}
+    .game {background:var(--card-bg);border:2px solid var(--card-border);
+            border-radius:12px;padding:1rem 1.5rem;margin:1rem 0;
+            box-shadow:0 4px 12px rgba(0,0,0,0.7);transition:0.2s}
+    .game:hover {transform:translateY(-4px);box-shadow:0 8px 20px rgba(0,0,0,0.8)}
+    .votes {display:inline-block;background:var(--vote-bg);color:var(--accent-color);
+             font-size:1.3em;font-weight:bold;padding:0.4em 0.8em;border-radius:0.4em;
+             margin-bottom:0.5em;text-shadow:0 0 4px rgba(0,234,255,0.5)}
+    .game-name {font-size:1.5em;font-weight:bold;margin:0.3em 0;color:var(--game-color)}
+    .suggester {opacity:0.75;font-style:italic;font-size:0.9em}
+    .store-link a {color:#888;font-size:0.8em;text-decoration:none}
+    .store-link a:hover {color:var(--accent-color);text-shadow:0 0 6px var(--accent-color)}
+    .archive-link {margin-top:1rem;text-align:center}
+    .archive-link .link {font-size:0.85em;color:#888;text-decoration:none;
+                          padding:0.3em 0.6em;border:1px solid #555;
+                          border-radius:6px;background:rgba(0,0,0,0.3)}
+    .archive-link .link:hover {background:rgba(255,255,255,0.1);color:#aaa}
+    .howto-section {margin-top:2rem;padding:1rem;background:rgba(0,0,0,0.5);
+                     border-left:4px solid var(--accent-color);border-radius:6px;
+                     font-size:0.9em;line-height:1.4}
+    @media(max-width:600px) {
+      .container{margin:1rem;padding:1rem}
+      h1{font-size:2rem}
+      .links a{font-size:0.9em}
+      .game{padding:0.8rem 1rem}
+      .votes{font-size:1.1em;padding:0.3em 0.6em}
+    }
+  </style>
+  <script>
+    var EMOTES  = [
+      "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4a709e77c64a4856b6e104d31b9b0d32/static/light/3.0",
+      /* ...rest of EMOTES array... */
+    ];
+    var ACCENTS = ["#ff0044", "#00ff88", "#ffaa00", "#00ccff", "#ff00cc"];
+    document.addEventListener('DOMContentLoaded', function() {
+      var bg = EMOTES[Math.floor(Math.random()*EMOTES.length)];
+      var accent = ACCENTS[Math.floor(Math.random()*ACCENTS.length)];
+      var gameColor = ACCENTS[Math.floor(Math.random()*ACCENTS.length)];
+      document.documentElement.style.setProperty('--bgurl','url('+bg+')');
+      document.documentElement.style.setProperty('--accent-color',accent);
+      document.documentElement.style.setProperty('--game-color',gameColor);
+      updateVotes(); setInterval(updateVotes,2000);
+    });
+    async function updateVotes() {
+      try {
+        var res = await fetch('votes.json?cb=' + Date.now());
+        var games = await res.json();
+        document.getElementById('games-list').innerHTML = games.map(function(g) {
+          var lbl = g.votes===1 ? 'vote' : 'votes';
+          var link = g.url
+            ? '<div class="store-link"><a href="'+g.url+'" target="_blank">View on Store</a></div>'
+            : '';
+          return '<div class="game">'
+               +  '<div class="votes">'+g.votes+' '+lbl+'</div>'
+               +  '<div class="game-name">'+g.name+'</div>'
+               +  '<div class="suggester">Suggested by: '+g.user+' at '+g.time+'</div>'
+               +  link
+               + '</div>';
+        }).join('');  
+      } catch(e) { console.error(e); }
+    }
+  </script>
+</head><body>
+  <div class="container">
+    <h1><a href="index.html">🎮 Game Suggestions</a></h1>
+    <div class="links">
+        <a href="https://twitch.tv/brucecooper" target="_blank">🎥 Watch Live on Twitch</a>
+        <a class="link" href="archives/index.html">📂 View Archives</a>
+        <a class="link" href="commands.html">📜 View Commands</a>
+    </div>
+
+<div id="games-list">
+  <div class='game'><div class='votes'>1 vote</div><div class='game-name'>No Man's Sky</div><div class='suggester'>Suggested by: brucecooper at 2025-07-16 09:14</div><div class='store-link'><a href='https://store.steampowered.com/app/275850/No_Mans_Sky/' target='_blank'>View on Store</a></div></div>
+<div class='game'><div class='votes'>1 vote</div><div class='game-name'>Hollow Knight</div><div class='suggester'>Suggested by: brucecooper at 2025-07-16 09:14</div><div class='store-link'><a href='https://store.steampowered.com/app/367520/Hollow_Knight/' target='_blank'>View on Store</a></div></div>
+<div class='game'><div class='votes'>1 vote</div><div class='game-name'>ReMove</div><div class='suggester'>Suggested by: brucecooper at 2025-07-16 09:15</div><div class='store-link'><a href='https://store.steampowered.com/app/2789740/ReMove/' target='_blank'>View on Store</a></div></div>
+<div class='game'><div class='votes'>1 vote</div><div class='game-name'>Elite Dangerous</div><div class='suggester'>Suggested by: brucecooper at 2025-07-16 09:16</div><div class='store-link'><a href='https://store.steampowered.com/app/359320/Elite_Dangerous/' target='_blank'>View on Store</a></div></div>
+<div class='game'><div class='votes'>1 vote</div><div class='game-name'>Finnish Cottage Simulator</div><div class='suggester'>Suggested by: brucecooper at 2025-07-16 09:16</div><div class='store-link'><a href='https://store.steampowered.com/app/1723780/Finnish_Cottage_Simulator/' target='_blank'>View on Store</a></div></div>
+</div>
+
+    <script>
+      var host = window.location.hostname;
+      var iframe = document.createElement('iframe');
+      iframe.src  = 'https://player.twitch.tv/?channel=brucecooper&parent=' + host;
+      iframe.style.width  = '100%';
+      iframe.style.height = '300px';
+      iframe.style.border = 'none';
+      document.body.appendChild(iframe);
+    </script>
+    <div id="howto" class="howto-section">
+      <h2>How to Vote</h2>
+      <p>You may vote for up to <strong>5 different games per day</strong>, but only the same game <strong>once per week</strong>.</p>
+      <p>In chat, type <code>!vote Game&nbsp;Name</code>. Votes reset every Saturday at midnight&nbsp;PST.</p>
+    </div>
+  </div>
+</body></html>
